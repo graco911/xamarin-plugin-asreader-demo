@@ -113,8 +113,7 @@ namespace Sample
 			{
 				this.ViewController = viewController;
 			}
-
-
+				
 			public override void PluggedRfid (bool plug)
 			{
 				InvokeOnMainThread ( () => {
@@ -129,8 +128,6 @@ namespace Sample
 				});
 			}
 
-
-
 			public override void EpcReceived (Foundation.NSData epc)
 			{
 				InvokeOnMainThread ( () => {
@@ -140,12 +137,9 @@ namespace Sample
 					var bytes = new byte[epc.Length];
 					System.Runtime.InteropServices.Marshal.Copy(buffer, bytes, 0, bytes.Length);
 
-
 					for(UInt32 i = 0; i < bytes.Length; i++)												
 						builder.Append(bytes[i].ToString("x2"));
 
-//						[tag appendFormat:@"%0X", *ptr++ & 0xFF ];
-					
 					this.ViewController.ReadText.Text = this.ViewController.ReadText.Text + "\n" + builder.ToString();
 
 				});
