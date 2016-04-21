@@ -1,6 +1,8 @@
 # xamarin-plugin-asreader-demo
 Sample project for Xamarin using AsReader
 
+This is created by Xamarin Studio.
+
 # How to use
 ## Download AsReader DLL
 download dll and import project file.  
