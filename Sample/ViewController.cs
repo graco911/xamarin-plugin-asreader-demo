@@ -53,8 +53,8 @@ namespace Sample
 
 		partial void StopButton_TouchUpInside (UIButton sender)
 		{
-			var status = rcp.StopReadBarcodes;
-			status = rcpRfid.StopReadTags;
+			var status = rcp.StopReadBarcodes();
+			status = rcpRfid.StopReadTags();
 		}
 
 		partial void ClearButton_TouchUpInside (UIButton sender)
@@ -82,7 +82,7 @@ namespace Sample
 
 			public override void PluggedBarcode (bool plug)
 			{
-				if (rcp.Open) {
+				if (rcp.Open()) {
 					rcp.SetReaderPower (true);
 				}
 			}
@@ -119,7 +119,7 @@ namespace Sample
 				InvokeOnMainThread ( () => {
 					if (plug == true) {	
 						this.ViewController.StatusLabel.Text = "Plugged";
-						if (rcpRfid.Open) {
+						if (rcpRfid.Open()) {
 							rcpRfid.SetReaderPower (true);
 						}
 					}else{

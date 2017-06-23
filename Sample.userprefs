@@ -1,18 +1,32 @@
-﻿<Properties StartupItem="Sample/Sample.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Sample/Info.plist">
+﻿<Properties StartupConfiguration="{6CE7E68F-CC9D-416D-A104-7AE03B9C7345}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sample/ViewController.cs">
     <Files>
-      <File FileName="Sample/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="Sample/ApiDefinition.cs" Line="1" Column="1" />
-      <File FileName="Sample/PhoneTranslator.cs" Line="1" Column="1" />
-      <File FileName="Sample/ViewController.designer.cs" Line="1" Column="1" />
+      <File FileName="Sample/ViewController.cs" Line="56" Column="23" />
+      <File FileName="Sample/ViewController.designer.cs" Line="30" Column="42" />
+      <File FileName="Sample/AppDelegate.cs" Line="27" Column="4" />
+      <File FileName="Sample/Main.cs" Line="12" Column="1" />
       <File FileName="Sample/Info.plist" />
-      <File FileName="Sample/Main.cs" Line="1" Column="1" />
-      <File FileName="Sample/ViewController.cs" Line="56" Column="38" />
+      <File FileName="Sample/Entitlements.plist" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Sample" expanded="True">
+            <Node name="Sample" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Resources" expanded="True" />
+              <Node name="ViewController.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Sample PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.A5D070FD-8518-4776-B0B4-B430604F586D" />
 </Properties>
