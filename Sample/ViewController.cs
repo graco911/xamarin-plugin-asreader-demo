@@ -2,17 +2,17 @@
 using UIKit;
 using Foundation;
 using System.Text;
-
-
+using System.Collections.Generic;
 
 namespace Sample
 {
 	public partial class ViewController : UIViewController
 	{
-		BarcodeDelegate rcpDelegate;
+		//BarcodeDelegate rcpDelegate;
 		RcpRfidDelegate rfidDelegate;
-		static RcpBarcodeApi rcp;
+		//static RcpBarcodeApi rcp;
 		static RcpRfidApi rcpRfid;
+        static List<string> lecturas;
 
 		public ViewController (IntPtr handle) : base (handle)
 		{
@@ -22,15 +22,17 @@ namespace Sample
 		{
 			base.ViewDidLoad ();
 
-			rcp = new RcpBarcodeApi ();
-			rcpDelegate = new BarcodeDelegate(this);
-			rcp.WeakDelegate = rcpDelegate;
-			rcp.SetReaderPower (true);
+			//rcp = new RcpBarcodeApi ();
+			//rcpDelegate = new BarcodeDelegate(this);
+			//rcp.WeakDelegate = rcpDelegate;
+			//rcp.SetReaderPower (true);
 
 			rcpRfid = new RcpRfidApi ();
 			rfidDelegate = new RfidDelegate (this);
 			rcpRfid.WeakDelegate = rfidDelegate;
 			rcpRfid.SetReaderPower (true);
+
+            lecturas = new List<string>();
 
 		}
 
@@ -45,7 +47,7 @@ namespace Sample
 		{
 			new System.Threading.Thread(new System.Threading.ThreadStart(() => {
 				InvokeOnMainThread (() => {
-					rcp.StartReadBarcodes(0x00,0x00,0x00);
+					//rcp.StartReadBarcodes(0x00,0x00,0x00);
 					rcpRfid.StartReadTags(0x00,0x00,0x00);
 				});
 			})).Start();				
@@ -53,8 +55,8 @@ namespace Sample
 
 		partial void StopButton_TouchUpInside (UIButton sender)
 		{
-			var status = rcp.StopReadBarcodes();
-			status = rcpRfid.StopReadTags();
+			//var status = rcp.StopReadBarcodes();
+			var status = rcpRfid.StopReadTags();
 		}
 
 		partial void ClearButton_TouchUpInside (UIButton sender)
@@ -62,39 +64,39 @@ namespace Sample
 			ReadText.Text = "";
 		}			
 	
-		public class BarcodeDelegate : RcpBarcodeDelegate
-		{
-			WeakReference viewController;
-			ViewController ViewController {
-				get { 
-					return viewController == null ? null : (ViewController) viewController.Target;
-				}
+		//public class BarcodeDelegate : RcpBarcodeDelegate
+		//{
+		//	WeakReference viewController;
+		//	ViewController ViewController {
+		//		get { 
+		//			return viewController == null ? null : (ViewController) viewController.Target;
+		//		}
 
-				set {
-					viewController = value == null ? null : new WeakReference (value);
-				}
-			}
+		//		set {
+		//			viewController = value == null ? null : new WeakReference (value);
+		//		}
+		//	}
 
-			public BarcodeDelegate (ViewController viewController) : base()
-			{
-				this.ViewController = viewController;
-			}
+		//	public BarcodeDelegate (ViewController viewController) : base()
+		//	{
+		//		this.ViewController = viewController;
+		//	}
 
-			public override void PluggedBarcode (bool plug)
-			{
-				if (rcp.Open()) {
-					rcp.SetReaderPower (true);
-				}
-			}
+		//	public override void PluggedBarcode (bool plug)
+		//	{
+		//		if (rcp.Open()) {
+		//			rcp.SetReaderPower (true);
+		//		}
+		//	}
 				
-			public override void BarcodeStringReceived (string barcode)
-			{
+		//	public override void BarcodeStringReceived (string barcode)
+		//	{
 
-				InvokeOnMainThread ( () => {
-					this.ViewController.ReadText.Text = this.ViewController.ReadText.Text + "\n" + barcode;
-				});
-			}
-		}
+		//		InvokeOnMainThread ( () => {
+		//			this.ViewController.ReadText.Text = this.ViewController.ReadText.Text + "\n" + barcode;
+		//		});
+		//	}
+		//}
 
 		public class RfidDelegate : RcpRfidDelegate
 		{		
@@ -142,12 +144,43 @@ namespace Sample
 
 					this.ViewController.ReadText.Text = this.ViewController.ReadText.Text + "\n" + builder.ToString();
 
+                    lecturas.Add(string.Format("{0} - {1}", builder.ToString(), DateTime.Now.ToLongDateString()));
+                    this.ViewController.DataTableView.Source = new DataTableSource(lecturas);
+                    this.ViewController.DataTableView.ReloadData();
 				});
 			}
 		}
 
 	}
 
+    internal class DataTableSource : UITableViewSource
+    {
+        private List<string> lecturas;
+        private string cellIdentifier = "TableCell";
 
+        public DataTableSource(List<string> lecturas)
+        {
+            this.lecturas = lecturas;
+        }
+
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = tableView.DequeueReusableCell(cellIdentifier);
+            string item = lecturas[indexPath.Row];
+
+            if (cell == null)
+            {
+                cell = new UITableViewCell(UITableViewCellStyle.Default, cellIdentifier);
+                cell.TextLabel.Text = item;
+            }
+
+            return cell;
+        }
+
+        public override nint RowsInSection(UITableView tableview, nint section)
+        {
+            return lecturas.Count;
+        }
+    }
 }
 
